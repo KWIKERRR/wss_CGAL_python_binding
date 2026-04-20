@@ -6,7 +6,7 @@ A Python/C++ wrapper around [CGAL](https://www.cgal.org/)'s weighted straight sk
 
 ## Overview
 
-This library exposes two C++ functions via a shared library (`libweighted_straight_skeleton.so` / `.dll`):
+This library exposes C++ functions via a shared library (`libweighted_straight_skeleton.so``):
 
 - **`compute_straight_skeleton_and_save`** — computes the weighted straight skeleton of a simple polygon and saves the resulting 3D mesh.
 
