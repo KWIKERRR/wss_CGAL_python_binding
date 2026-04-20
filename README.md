@@ -65,7 +65,7 @@ The compiled library will be placed in `build/libweighted_straight_skeleton.so` 
 ```bash
 pip install -r requirements.txt
 ```
-The core library only requires `numpy`. plotly is an optional dependency used for mesh visualization.
+The core library only requires `numpy`. `plotly` is an optional dependency used for mesh visualization.
 
 ---
 
