@@ -6,7 +6,7 @@ A Python/C++ wrapper around [CGAL](https://www.cgal.org/)'s weighted straight sk
 
 ## Overview
 
-This library exposes C++ functions via a shared library (`libweighted_straight_skeleton.so``):
+This library exposes C++ functions via a shared library (`libweighted_straight_skeleton.so`):
 
 - **`compute_straight_skeleton_and_save`** — computes the weighted straight skeleton of a simple polygon and saves the resulting 3D mesh.
 
@@ -35,7 +35,7 @@ Output is saved as an `.off` mesh file (Object File Format), readable by most 3D
 
 ### 1. Set up the environment variable
 
-The build system relies on `WSS_GEN_PROJECT_ROOT` to locate dependencies and `WSS_PROJECT_ROOT` to locate the compiled shared library at runtime.
+The build system relies on `WSS_PROJECT_ROOT` to locate dependencies the compiled shared library at runtime.
 
 ```bash
 export WSS_PROJECT_ROOT=$(pwd)
@@ -59,6 +59,13 @@ cmake --build ./build --config Release
 ```
 
 The compiled library will be placed in `build/libweighted_straight_skeleton.so` (Linux) or `build/weighted_straight_skeleton.dll` (Windows).
+
+### 4. Set up the python environment
+
+```bash
+pip install -r requirements.txt
+```
+The core library only requires `numpy`. plotly is an optional dependency used for mesh visualization.
 
 ---
 
