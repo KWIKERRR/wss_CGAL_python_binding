@@ -120,7 +120,7 @@ visualize_mesh(vertices, faces)
 ### 3. WSS computation with several holes
 
 ```bash
-python demos/2_one_hole.py
+python demos/3_several_holes.py
 ```
 
 ```python
