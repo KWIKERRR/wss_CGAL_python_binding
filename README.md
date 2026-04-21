@@ -63,6 +63,10 @@ The core library only requires `numpy`. `plotly` is an optional dependency used 
 ## Usage
 
 ### 1. WSS computation
+```bash
+python demos/1_base.py
+```
+
 ```python
 from weighted_straight_skeleton import compute_straight_skeleton
 from utils import ensure_counterclockwise, load_off_file, visualize_mesh
@@ -81,8 +85,14 @@ success = compute_straight_skeleton(footprint,
 vertices, faces = load_off_file(output_file_path)
 visualize_mesh(vertices, faces)
 ```
+![Output demos/1_base.py](./images/roof.png)
 
 ### 2. WSS computation with one hole
+
+```bash
+python demos/2_one_hole.py
+```
+
 ```python
 from weighted_straight_skeleton import compute_straight_skeleton
 from utils import ensure_clockwise, ensure_counterclockwise, load_off_file, visualize_mesh
@@ -105,7 +115,14 @@ compute_straight_skeleton(footprint,
 vertices, faces = load_off_file('roof_with_one_hole.off')
 visualize_mesh(vertices, faces)
 ```
-### 3. WSS computation with sevral holes
+![Output demos/2_one_hole.py](./images/one_hole.png)
+
+### 3. WSS computation with several holes
+
+```bash
+python demos/2_one_hole.py
+```
+
 ```python
 from weighted_straight_skeleton import compute_straight_skeleton
 from utils import ensure_clockwise, ensure_counterclockwise, load_off_file, visualize_mesh
@@ -137,6 +154,8 @@ compute_straight_skeleton(footprint,
 vertices, faces = load_off_file('roof_with_holes.off)
 visualize_mesh(vertices, faces)
 ```
+![Output demos/3_several_holes.py](./images/several_holes.png)
+
 ### Parameters
 
 | Parameter | Type | Description |
