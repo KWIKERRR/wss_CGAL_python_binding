@@ -51,16 +51,7 @@ bash install.sh
 
 This will download and build GMP, MPFR, Boost, CGAL into `dependencies/` and compiled the library. The compiled library will be placed in `build/libweighted_straight_skeleton.so` (Linux).
 
-### 3. Build the shared library
-
-```bash
-cmake -S ./ -B ./build -DCMAKE_BUILD_TYPE=Release
-cmake --build ./build --config Release
-```
-
-The compiled library will be placed in `build/libweighted_straight_skeleton.so` (Linux) or `build/weighted_straight_skeleton.dll` (Windows).
-
-### 4. Set up the python environment
+### 3. Set up the python environment
 
 ```bash
 pip install -r requirements.txt
@@ -71,23 +62,81 @@ The core library only requires `numpy`. `plotly` is an optional dependency used 
 
 ## Usage
 
+### 1. WSS computation
 ```python
 from weighted_straight_skeleton import compute_straight_skeleton
 from utils import ensure_counterclockwise, load_off_file, visualize_mesh
 
-# Footprint vertices must be in counterclockwise order
+# Footprint should be in the counterclockwise order
 footprint = ensure_counterclockwise([(-10, 10), (-10, -10), (10, -10), (10, 10)])
 
-# One angle per edge (in degrees), controls the roof slope per face
-angles = [90, 45, 90, 45]
-output_file_path = "roof.off"
+# angles[0] is associated to edge footprint[0] -> footprint[1]
+base_angles = [90, 45, 90, 45]
 
-compute_straight_skeleton(footprint, angles=angles, output_file_path=output_file_path, verbose=True)
+# The results is saved in a .off file
+success = compute_straight_skeleton(footprint, 
+                                    angles=base_angles, 
+                                    output_file_path="roof.off")
 
 vertices, faces = load_off_file(output_file_path)
 visualize_mesh(vertices, faces)
 ```
 
+### 2. WSS computation with one hole
+```python
+from weighted_straight_skeleton import compute_straight_skeleton
+from utils import ensure_clockwise, ensure_counterclockwise, load_off_file, visualize_mesh
+
+footprint = ensure_counterclockwise([(-10, 10), (-10, -10), (10, -10), (10, 10)])
+base_angles = [90, 45, 90, 45]
+
+# Hole points should be in the clockwise order
+hole = ensure_clockwise([(-5, 5), (-5, -5), (5, -5), (5, 5)])
+hole_angles = [45, 90, 90, 45]
+
+# Base angles and hole angles should be concatenate in one list
+roof_with_one_hole_angles = base_angles + hole_angles
+
+compute_straight_skeleton(footprint, 
+                          angles=roof_with_one_hole_angles, 
+                          holes_list=[hole], 
+                          output_file_path='roof_with_one_hole.off')
+
+vertices, faces = load_off_file('roof_with_one_hole.off')
+visualize_mesh(vertices, faces)
+```
+### 3. WSS computation with sevral holes
+```python
+from weighted_straight_skeleton import compute_straight_skeleton
+from utils import ensure_clockwise, ensure_counterclockwise, load_off_file, visualize_mesh
+
+footprint = ensure_counterclockwise([(-10, 10), (-10, -10), (10, -10), (10, 10)])
+base_angles = [90, 45, 90, 45]
+
+hole1 = ensure_clockwise([(2, 8), (8, 8), (8, 2), (2, 2)])
+hole1_angles = [90, 45, 90, 45]
+
+hole2 = ensure_clockwise([(-2, -8), (-8, -8), (-8, -2), (-2, -2)])
+hole2_angles = [45, 90, 90, 45]
+
+hole3 = ensure_clockwise([(-2, 8), (-8, 8), (-8, 2), (-2, 2)])
+hole3_angles = [45, 90, 45, 90]
+
+hole4 = ensure_clockwise([(2, -8), (8, -8), (8, -2), (2, -2)])
+hole4_angles = [90, 90, 45, 45]
+
+holes = [hole1, hole2, hole3, hole4]
+roof_with_holes_angle = base_angles + hole1_angles + hole2_angles + hole3_angles + hole4_angles
+
+
+compute_straight_skeleton(footprint, 
+                          angles=roof_with_holes_angle,
+                          holes_list=holes, 
+                          output_file_path='roof_with_holes.off')
+
+vertices, faces = load_off_file('roof_with_holes.off)
+visualize_mesh(vertices, faces)
+```
 ### Parameters
 
 | Parameter | Type | Description |
